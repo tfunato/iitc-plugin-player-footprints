@@ -4,8 +4,8 @@
 // @category  Layer
 // @version 0.0.1
 // @namespace https://github.com/tfunato/iitc-plugin-player-footprints
-// @updateURL https://github.com/tfunato/iitc-plugin-player-footprints/iitc-plugin-player-footprints.js
-// @downloadURL  https://github.com/tfunato/iitc-plugin-player-footprints/iitc-plugin-player-footprints.js
+// @updateURL https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false
+// @downloadURL https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false
 // @description Show Player footprints on the map.
 // @include		https://intel.ingress.com/*
 // @match		https://intel.ingress.com/*
