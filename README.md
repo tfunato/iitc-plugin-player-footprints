@@ -11,7 +11,7 @@ This script is a plugin for [Ingress Intel Total Conversion (IITC)](https://iitc
 ### Install
 
 1. Install [Ingress Intel Total Conversion (IITC)](https://iitc.app/) 
-2. Install this plugin by clicking [here](https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.js?inline=false)
+2. Install this plugin by clicking [here](https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false)
 3. Open [Intel Map](https://intel.ingress.com/intel) and mouse-over the layer chooser to verify that the "Player Footprints" layer is visible.
 
 ![figure2](https://user-images.githubusercontent.com/69743/107522833-704b2880-6bf7-11eb-84a8-ed9d92462d42.png)
