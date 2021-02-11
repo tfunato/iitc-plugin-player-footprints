@@ -2,7 +2,7 @@
 // @id iitc-plugin-player-footprints
 // @name IITC plugin: Player Footprints
 // @category  Layer
-// @version 0.0.1
+// @version 0.0.2
 // @namespace https://github.com/tfunato/iitc-plugin-player-footprints
 // @updateURL https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false
 // @downloadURL https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false
@@ -51,10 +51,15 @@ function wrapper(plugin_info) {
     };
 
     thisPlugin.highlightFootprint = function(portal, type) {
-        const scale = map.getZoom();
+        // portal level 0 1  2  3  4 5  6  7  8
+        const LEVEL_TO_WEIGHT = [2, 2, 2, 2, 2, 3, 3, 4, 4];
+        const LEVEL_TO_RADIUS = [7, 7, 7, 7, 8, 8, 9,10,11];
+        const scale = portalMarkerScale();
+        const level = Math.floor(portal["options"]["level"]||0);
+
         const portalLatLng = L.latLng(portal._latlng.lat, portal._latlng.lng);
-        const lvlWeight = 30;
-        const lvlRadius = 2;
+        const lvlWeight = LEVEL_TO_WEIGHT[level] * Math.sqrt(scale) + 5;
+        const lvlRadius = LEVEL_TO_RADIUS[level] * scale + 2;
         const color = footprintColor[type];
         thisPlugin.playerFootprintsLayerGroup.addLayer(L.circleMarker(portalLatLng, { radius: lvlRadius, fill: false, color: color, weight: lvlWeight, interactive: false, clickable: false }));
     }
@@ -73,6 +78,13 @@ function wrapper(plugin_info) {
         return result;
     }
 
+    function portalMarkerScale() {
+        const zoom = map.getZoom();
+        if (L.Browser.mobile)
+            return zoom >= 16 ? 1.5 : zoom >= 14 ? 1.2 : zoom >= 11 ? 1.0 : zoom >= 8 ? 0.65 : 0.5;
+        else
+            return zoom >= 14 ? 1 : zoom >= 11 ? 0.8 : zoom >= 8 ? 0.65 : 0.5;
+    }
     // ass calculating portal marker visibility can take some time when there's lots of portals shown, we'll do it on
     // a short timer. this way it doesn't get repeated so much
     window.plugin.PlayerFootprints.delayedUpdatePlayerFootprints = function(wait) {
