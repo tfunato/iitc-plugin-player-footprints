@@ -1,33 +1,37 @@
 # IITC-plugin for player footprints
 This script is a plugin for [Ingress Intel Total Conversion (IITC)](https://iitc.app/) and will not work without it.
 
+Displays Player's footprint on IITC.
+
 ## Installation
 ### Requisites
 
-1. [Google Chrome](http://google.com/chrome) 
+1. [Google Chrome](http://google.com/chrome)
 2. [Tampermonkey extension](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 3. [Ingress Account](https://ingress.com/)
 
 ### Install
 
-1. Install [Ingress Intel Total Conversion (IITC)](https://iitc.app/) 
+1. Install [Ingress Intel Total Conversion (IITC)](https://iitc.app/)
 2. Install this plugin by clicking [here](https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false)
-3. Open [Intel Map](https://intel.ingress.com/intel) and mouse-over the layer chooser to verify that the "Player Footprints" layer is visible.
+3. Open [Intel Map](https://intel.ingress.com/intel) and mouse-over the layer chooser to verify that the "Player Footprints" or "Player Unvisited" layer is visible.
 
-![figure2](https://user-images.githubusercontent.com/69743/107522833-704b2880-6bf7-11eb-84a8-ed9d92462d42.png)
+![figure1](https://user-images.githubusercontent.com/69743/107774332-33f80380-6d82-11eb-9d4d-4372c7ac2031.png)
 
 ### About
 * Red circles are visited and not captured.
 * Purple circles are visited and captured.
-* Portals without a circle are not visited.
+* Yellow circles are not visited.
 
-![figure1](https://user-images.githubusercontent.com/69743/107522824-6d503800-6bf7-11eb-80a2-a8dd80344fc9.png)
+![figure2](https://user-images.githubusercontent.com/69743/107774342-35c1c700-6d82-11eb-91eb-e492a87d2cf9.png)
 
-* visited and captured portal
 
-![visited_and_captured](https://user-images.githubusercontent.com/69743/107524072-bbb20680-6bf8-11eb-93a9-9b10fd2151b4.png)
+### Unvisited
+![figure3](https://user-images.githubusercontent.com/69743/107774348-38242100-6d82-11eb-925b-49d53d96c173.png)
 
-* visited and uncaptured portal
+### Visited and captured
 
-![visited_and_uncaptured](https://user-images.githubusercontent.com/69743/107524078-bc4a9d00-6bf8-11eb-9849-8e9b58367902.png)
+![figure4](https://user-images.githubusercontent.com/69743/107774349-38242100-6d82-11eb-8d39-c7bc433647b9.png)
 
+### Visited, not captured
+![figure5](https://user-images.githubusercontent.com/69743/107775229-5f2f2280-6d83-11eb-89f0-1fabaeb47bab.png)

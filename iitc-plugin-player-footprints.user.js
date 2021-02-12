@@ -2,7 +2,7 @@
 // @id iitc-plugin-player-footprints
 // @name IITC plugin: Player Footprints
 // @category  Layer
-// @version 0.0.2
+// @version 0.0.3
 // @namespace https://github.com/tfunato/iitc-plugin-player-footprints
 // @updateURL https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false
 // @downloadURL https://raw.githubusercontent.com/tfunato/iitc-plugin-player-footprints/main/iitc-plugin-player-footprints.user.js?inline=false
@@ -37,20 +37,21 @@ function wrapper(plugin_info) {
         for (let guid in window.portals) {
             let portal = window.portals[guid];
             let ent = portal.options.ent;
-            if(ent && ent[2][18]) {
-                if(ent[2][18] === 3 || ent[2][18] === 1){
-                    thisPlugin.highlightFootprint(portal, ent[2][18]);
-                }
-            }
+            const type = ent && ent[2][18] ? ent[2][18] : 0;
+            thisPlugin.highlight(portal, type);
         }
     }
 
-    const footprintColor = {
-        1: "#ff0000", // visited & uncaputre
-        3: "#9537ff" // visited & captured
+    const footprintSettings = {
+        0: { color: "#ffd700", layer: "playerUnvisitedLayerGroup" }, // unvisited
+        1: { color: "#ff0000", layer: "playerFootprintsLayerGroup" }, // visited & uncaputre
+        3: { color: "#9537ff", layer: "playerFootprintsLayerGroup"}// visited & captured
     };
 
-    thisPlugin.highlightFootprint = function(portal, type) {
+    thisPlugin.highlight = function(portal, type) {
+        if (!type in footprintSettings) {
+            return;
+        }
         // portal level 0 1  2  3  4 5  6  7  8
         const LEVEL_TO_WEIGHT = [2, 2, 2, 2, 2, 3, 3, 4, 4];
         const LEVEL_TO_RADIUS = [7, 7, 7, 7, 8, 8, 9,10,11];
@@ -58,15 +59,19 @@ function wrapper(plugin_info) {
         const level = Math.floor(portal["options"]["level"]||0);
 
         const portalLatLng = L.latLng(portal._latlng.lat, portal._latlng.lng);
-        const lvlWeight = LEVEL_TO_WEIGHT[level] * Math.sqrt(scale) + 5;
+        const lvlWeight = LEVEL_TO_WEIGHT[level] * Math.sqrt(scale) + 6;
         const lvlRadius = LEVEL_TO_RADIUS[level] * scale + 2;
-        const color = footprintColor[type];
-        thisPlugin.playerFootprintsLayerGroup.addLayer(L.circleMarker(portalLatLng, { radius: lvlRadius, fill: false, color: color, weight: lvlWeight, interactive: false, clickable: false }));
+        const color = footprintSettings[type].color;
+        const layer = footprintSettings[type].layer;
+        thisPlugin[layer].addLayer(L.circleMarker(portalLatLng, { radius: lvlRadius, fill: false, color: color, weight: lvlWeight, interactive: false, clickable: false }));
     }
 
     thisPlugin.clearAllFootprints = function() {
         for (let layer in thisPlugin.playerFootprintsLayerGroup._layers) {
             thisPlugin.playerFootprintsLayerGroup.removeLayer(layer);
+        }
+        for (let layer in thisPlugin.playerUnvisitedLayerGroup._layers) {
+            thisPlugin.playerUnvisitedLayerGroup.removeLayer(layer);
         }
     }
 
@@ -99,7 +104,9 @@ function wrapper(plugin_info) {
     // The entry point for this plugin.
    function setup() {
        window.plugin.PlayerFootprints.playerFootprintsLayerGroup = new L.LayerGroup();
+       window.plugin.PlayerFootprints.playerUnvisitedLayerGroup = new L.LayerGroup();
        window.addLayerGroup('Player Footprints', window.plugin.PlayerFootprints.playerFootprintsLayerGroup, true);
+       window.addLayerGroup('Player Unvisited', window.plugin.PlayerFootprints.playerUnvisitedLayerGroup, true);
        window.addHook('requestFinished', function() { setTimeout(function(){window.plugin.PlayerFootprints.delayedUpdatePlayerFootprints(3.0);},1); });
        window.map.on('zoomend', window.plugin.PlayerFootprints.clearAllFootprints);
    }
